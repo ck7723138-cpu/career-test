@@ -2,23 +2,25 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CareerPath AI</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
   <div class="box">
     <h1>CareerPath AI</h1>
     <p>Find your future career with AI</p>
     <button onclick="startTest()">Start Career Test</button>
   </div>
-<div id="questionBox" style="display:none;">
-  <h2 id="question">Q1. What do you like more?</h2>
 
-  <button onclick="answer('tech')">Technology</button>
-  <button onclick="answer('art')">Art / Design</button>
-</div>
-<script src="script.js"></script>
+  <div id="questionBox" style="display:none;">
+    <h2 id="question">Q1. What do you like more?</h2>
+    <button onclick="answer('tech')">Technology</button>
+    <button onclick="answer('art')">Art / Design</button>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
