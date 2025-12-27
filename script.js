@@ -14,14 +14,10 @@ function answer(choice) {
       "Q2. What do you enjoy more?";
 
     document.getElementById("btn1").innerText = "Solving Problems";
-    document.getElementById("btn1").onclick = function () {
-      answer("problem");
-    };
+    document.getElementById("btn1").onclick = () => answer("problem");
 
     document.getElementById("btn2").innerText = "Creating Designs";
-    document.getElementById("btn2").onclick = function () {
-      answer("design");
-    };
+    document.getElementById("btn2").onclick = () => answer("design");
 
     currentQuestion = 2;
   } else {
@@ -35,14 +31,14 @@ function showResult() {
   if (answers.q1 === "code" && answers.q2 === "problem") {
     result = "💻 Software Developer";
   } else if (answers.q1 === "creative" && answers.q2 === "design") {
-    result = "🎨 UI/UX Designer";
+    result = "🎨 UI / UX Designer";
   } else {
     result = "🚀 Tech + Creative Career";
   }
 
   document.getElementById("questionBox").innerHTML = `
     <h2>Result</h2>
-    <p>You are suitable for:</p>
+    <p>You are best suited for:</p>
     <h3>${result}</h3>
     <button onclick="location.reload()">Restart Test</button>
   `;
