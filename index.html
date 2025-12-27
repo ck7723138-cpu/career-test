@@ -1,44 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CareerPath AI</title>
+  <title>Career Test</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-  <div id="quiz">
+  <div class="box">
+    <h1>What are you more interested in?</h1>
 
-  <!-- Question 1 -->
-  <div id="q1">
-    <h2>What are you more interested in?</h2>
-    <button onclick="selectInterest('software')">💻 Software</button>
-    <button onclick="selectInterest('creative')">🎨 Creative</button>
+    <button id="soft">💻 Software</button>
+    <button id="creative">🎨 Creative</button>
+
+    <p id="result"></p>
   </div>
 
-  <!-- Software Questions -->
-  <div id="softwareQ" style="display:none;">
-    <h2>Do you enjoy solving problems?</h2>
-    <button onclick="showResult('software')">Yes</button>
-    <button onclick="showResult('software')">No</button>
-  </div>
+  <script>
+    document.getElementById("soft").onclick = function () {
+      document.getElementById("result").innerText =
+        "Focus on Coding, Apps, AI, Websites, Problem Solving.";
+    };
 
-  <!-- Creative Questions -->
-  <div id="creativeQ" style="display:none;">
-    <h2>Do you like drawing / creating new ideas?</h2>
-    <button onclick="showResult('creative')">Yes</button>
-    <button onclick="showResult('creative')">No</button>
-  </div>
+    document.getElementById("creative").onclick = function () {
+      document.getElementById("result").innerText =
+        "Focus on Design, Video Editing, Content Creation, Art, Music.";
+    };
+  </script>
 
-  <!-- Result -->
-  <div id="result" style="display:none;">
-    <h2 id="resultText"></h2>
-  </div>
-
-  </div>
-
-<script src="script.js"></script>
 </body>
 </html>
