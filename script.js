@@ -19,7 +19,7 @@ function answer(choice) {
     document.getElementById("btn2").setAttribute("onclick", "answer('creative')");
     currentQuestion = 2;
   } else {
-    alert("Test completed ✅");
+    console.log("Test completed");
     console.log(answers);
   }
 }
