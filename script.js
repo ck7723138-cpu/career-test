@@ -10,16 +10,29 @@ function answer(choice) {
   answers["q" + currentQuestion] = choice;
 
   if (currentQuestion === 1) {
-    // Q2 show karo
+    // Q2 show
     document.getElementById("question").innerText =
       "Q2. How do you prefer to work?";
+
     document.getElementById("btn1").innerText = "With Code / Logic";
-    document.getElementById("btn1").setAttribute("onclick", "answer('code')");
+    document.getElementById("btn1").onclick = function () {
+      answer("code");
+    };
+
     document.getElementById("btn2").innerText = "With Creativity";
-    document.getElementById("btn2").setAttribute("onclick", "answer('creative')");
+    document.getElementById("btn2").onclick = function () {
+      answer("creative");
+    };
+
     currentQuestion = 2;
   } else {
-    console.log("Test completed");
+    // FINAL RESULT
+    document.getElementById("question").innerText =
+      "Test Completed ✅";
+
+    document.getElementById("btn1").style.display = "none";
+    document.getElementById("btn2").style.display = "none";
+
     console.log(answers);
   }
 }
