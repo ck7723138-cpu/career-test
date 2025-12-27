@@ -10,16 +10,14 @@
 <body>
 
   <div class="box">
-    <h1>CareerPath AI</h1>
-    <p>Find your future career with AI</p>
-    <button onclick="startTest()">Start Career Test</button>
-  </div>
+  <h1>CareerPath AI</h1>
+  <button onclick="startTest()">Start Test</button>
+</div>
 
-  <div id="questionBox" style="display:none;">
-  <h2 id="question">Q1. What do you like more?</h2>
-
-  <button id="btn1" onclick="answer('tech')">Technology</button>
-  <button id="btn2" onclick="answer('art')">Art / Design</button>
+<div id="questionBox" style="display:none">
+  <h2 id="question">Q1. How do you prefer to work?</h2>
+  <button id="btn1" onclick="answer('code')">With Code</button>
+  <button id="btn2" onclick="answer('creative')">With Creativity</button>
 </div>
   <script src="script.js"></script>
 </body>
