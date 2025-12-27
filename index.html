@@ -9,17 +9,35 @@
 
 <body>
 
-  <div class="box">
-  <h1>CareerPath AI</h1>
-  <button onclick="startTest()">Start Test</button>
-</div>
+  <div id="quiz">
 
-<div id="questionBox" style="display:none">
-  <h2 id="question">Q1. How do you prefer to work?</h2>
+  <!-- Question 1 -->
+  <div id="q1">
+    <h2>What are you more interested in?</h2>
+    <button onclick="selectInterest('software')">💻 Software</button>
+    <button onclick="selectInterest('creative')">🎨 Creative</button>
+  </div>
 
-  <button id="btn1" onclick="answer('code')">With Code</button>
-  <button id="btn2" onclick="answer('creative')">With Creativity</button>
-</div>
+  <!-- Software Questions -->
+  <div id="softwareQ" style="display:none;">
+    <h2>Do you enjoy solving problems?</h2>
+    <button onclick="showResult('software')">Yes</button>
+    <button onclick="showResult('software')">No</button>
+  </div>
+
+  <!-- Creative Questions -->
+  <div id="creativeQ" style="display:none;">
+    <h2>Do you like drawing / creating new ideas?</h2>
+    <button onclick="showResult('creative')">Yes</button>
+    <button onclick="showResult('creative')">No</button>
+  </div>
+
+  <!-- Result -->
+  <div id="result" style="display:none;">
+    <h2 id="resultText"></h2>
+  </div>
+
+  </div>
 
 <script src="script.js"></script>
 </body>
