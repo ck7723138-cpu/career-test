@@ -1,4 +1,5 @@
 let currentQuestion = 1;
+let answers = {};
 
 function startTest() {
   document.querySelector(".box").style.display = "none";
@@ -6,21 +7,37 @@ function startTest() {
 }
 
 function answer(choice) {
-  if (currentQuestion === 1) {
-    // Q2
-    document.getElementById("question").innerText =
-      "Q2. How do you prefer to work?";
+  answers["q" + currentQuestion] = choice;
 
-    document.getElementById("btn1").innerText = "With Code / Logic";
-    document.getElementById("btn2").innerText = "With Creativity";
+  if (currentQuestion === 1) {
+    document.getElementById("question").innerText =
+      "Q2. What do you enjoy more?";
+    document.getElementById("btn1").innerText = "Solving Problems";
+    document.getElementById("btn1").onclick = () => answer("problem");
+
+    document.getElementById("btn2").innerText = "Creating Designs";
+    document.getElementById("btn2").onclick = () => answer("design");
 
     currentQuestion = 2;
   } else {
-    // Result
-    document.getElementById("question").innerText =
-      "Test Completed ✅";
-
-    document.getElementById("btn1").style.display = "none";
-    document.getElementById("btn2").style.display = "none";
+    showResult();
   }
+}
+
+function showResult() {
+  let resultText = "";
+
+  if (answers.q1 === "code" && answers.q2 === "problem") {
+    resultText = "💻 You should become a Software Developer";
+  } else if (answers.q1 === "creative" && answers.q2 === "design") {
+    resultText = "🎨 You should become a UI/UX Designer";
+  } else {
+    resultText = "🚀 You are suitable for Tech & Creative fields";
+  }
+
+  document.getElementById("questionBox").innerHTML = `
+    <h2>Result</h2>
+    <p>${resultText}</p>
+    <button onclick="location.reload()">Retake Test</button>
+  `;
 }
