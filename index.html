@@ -2,40 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Career Guidance Test | CareerPath AI</title>
+  <title>CareerPath AI – Smart Career Guidance</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- CSS File -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <!-- START SCREEN -->
-    <div id="startScreen">
-      <h1>Career Guidance Test</h1>
-      <p>Answer a few questions to find your best career path</p>
-      <button onclick="startTest()">Start Test</button>
-    </div>
-
-    <!-- QUIZ SCREEN -->
-    <div id="quiz" class="hidden">
-      <h2 id="question">Question will appear here</h2>
-      <div id="options"></div>
-    </div>
-
-    <!-- RESULT SCREEN -->
-    <div id="result" class="hidden">
-      <h2>Your Career Result</h2>
-      <p id="finalResult" class="result"></p>
-      <button onclick="location.reload()">Restart Test</button>
-    </div>
-
+  <!-- LOGIN -->
+  <div id="loginScreen">
+    <h1>CareerPath AI</h1>
+    <p>Enter your name to start</p>
+    <input type="text" id="username" placeholder="Your Name">
+    <button onclick="login()">Continue</button>
   </div>
 
-  <!-- JavaScript File -->
-  <script src="script.js"></script>
+  <!-- START -->
+  <div id="startScreen" class="hidden">
+    <h2>Career Guidance Test</h2>
+    <button onclick="startTest()">Start Test</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz" class="hidden">
+    <h3 id="question"></h3>
+    <div id="options"></div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result" class="hidden">
+    <h2>Your Career Result</h2>
+    <div id="finalResult"></div>
+    <button onclick="downloadPDF()">Download PDF</button>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
