@@ -2,23 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Career Guidance Test</title>
+  <title>Career Guidance Test | CareerPath AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS File -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="box" id="startBox">
-    <h1>Career Guidance Test</h1>
-    <p>Answer honestly to know your real direction</p>
-    <button onclick="startTest()">Start Test</button>
+  <div class="container">
+
+    <!-- START SCREEN -->
+    <div id="startScreen">
+      <h1>Career Guidance Test</h1>
+      <p>Answer a few questions to find your best career path</p>
+      <button onclick="startTest()">Start Test</button>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="quiz" class="hidden">
+      <h2 id="question">Question will appear here</h2>
+      <div id="options"></div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div id="result" class="hidden">
+      <h2>Your Career Result</h2>
+      <p id="finalResult" class="result"></p>
+      <button onclick="location.reload()">Restart Test</button>
+    </div>
+
   </div>
 
-  <div class="box" id="questionBox" style="display:none;">
-    <h2 id="question"></h2>
-    <button id="btn1"></button>
-    <button id="btn2"></button>
-  </div>
-
+  <!-- JavaScript File -->
   <script src="script.js"></script>
+
 </body>
 </html>
