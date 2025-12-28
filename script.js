@@ -382,45 +382,185 @@ function selectOption(type) {
     showResult();
   }
 }
+let userName = "";
+let qIndex = 0;
+let phase = 1; // 1 = interest, 2 = deep
+let path = "";
+
+const scores = {
+  doctor: 0,
+  designer: 0,
+  developer: 0
+};
+
+/* Q1 ONLY */
+const interestQuestion = {
+  q: "What do you like most?",
+  options: [
+    { text: "Helping sick people", type: "doctor" },
+    { text: "Design & creativity", type: "designer" },
+    { text: "Coding & technology", type: "developer" }
+  ]
+};
+
+/* DEEP QUESTIONS */
+const deepQuestions = {
+  doctor: [
+    {
+      q: "Which subject do you enjoy most?",
+      options: [
+        { text: "Biology", type: "doctor" },
+        { text: "Chemistry", type: "doctor" },
+        { text: "Physics", type: "doctor" }
+      ]
+    },
+    {
+      q: "Are you comfortable with long study hours?",
+      options: [
+        { text: "Yes, I can manage", type: "doctor" },
+        { text: "Sometimes", type: "doctor" },
+        { text: "No", type: "designer" }
+      ]
+    }
+  ],
+
+  designer: [
+    {
+      q: "What excites you more?",
+      options: [
+        { text: "Colors & layouts", type: "designer" },
+        { text: "Logos & posters", type: "designer" },
+        { text: "Animations", type: "designer" }
+      ]
+    },
+    {
+      q: "Which tool sounds interesting?",
+      options: [
+        { text: "Canva", type: "designer" },
+        { text: "Figma / Photoshop", type: "designer" },
+        { text: "Video editing", type: "designer" }
+      ]
+    }
+  ],
+
+  developer: [
+    {
+      q: "What do you enjoy more?",
+      options: [
+        { text: "Solving problems", type: "developer" },
+        { text: "Building apps", type: "developer" },
+        { text: "Learning new tech", type: "developer" }
+      ]
+    },
+    {
+      q: "Which field attracts you?",
+      options: [
+        { text: "Web development", type: "developer" },
+        { text: "App development", type: "developer" },
+        { text: "Game development", type: "developer" }
+      ]
+    }
+  ]
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("startBtn").addEventListener("click", startApp);
+});
+
+function startApp() {
+  userName = document.getElementById("userName").value.trim();
+  if (!userName) {
+    alert("Please enter your name");
+    return;
+  }
+
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+
+  loadInterestQuestion();
+}
+
+/* PHASE 1 */
+function loadInterestQuestion() {
+  document.getElementById("question").innerText = interestQuestion.q;
+  renderOptions(interestQuestion.options);
+}
+
+/* PHASE 2 */
+function loadDeepQuestion() {
+  const q = deepQuestions[path][qIndex];
+  document.getElementById("question").innerText = q.q;
+  renderOptions(q.options);
+}
+
+function renderOptions(options) {
+  const box = document.getElementById("options");
+  box.innerHTML = "";
+
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.innerText = opt.text;
+    btn.onclick = () => selectOption(opt.type);
+    box.appendChild(btn);
+  });
+}
+
+function selectOption(type) {
+  scores[type]++;
+
+  if (phase === 1) {
+    // interest selected
+    path = type;
+    phase = 2;
+    qIndex = 0;
+    loadDeepQuestion();
+    return;
+  }
+
+  qIndex++;
+
+  if (qIndex < deepQuestions[path].length) {
+    loadDeepQuestion();
+  } else {
+    showResult();
+  }
+}
 
 /* RESULT */
 function showResult() {
   document.getElementById("quiz").classList.add("hidden");
   document.getElementById("result").classList.remove("hidden");
 
-  let career = Object.keys(scores).reduce((a, b) =>
+  let best = Object.keys(scores).reduce((a, b) =>
     scores[a] > scores[b] ? a : b
   );
 
   let html = `<h3>Hello ${userName} 👋</h3>`;
 
-  if (career === "doctor") {
+  if (best === "doctor") {
     html += `
       <h4>Doctor 🩺</h4>
       <ul>
         <li>Subjects: Biology, Chemistry, Physics</li>
-        <li>Start with: NEET preparation</li>
-        <li>Course: MBBS</li>
+        <li>Prepare for NEET</li>
       </ul>`;
   }
 
-  if (career === "designer") {
+  if (best === "designer") {
     html += `
       <h4>Designer 🎨</h4>
       <ul>
-        <li>Start with: Canva</li>
-        <li>Learn: Figma / Photoshop</li>
-        <li>Build portfolio</li>
+        <li>Start with Canva</li>
+        <li>Learn Figma / Photoshop</li>
       </ul>`;
   }
 
-  if (career === "developer") {
+  if (best === "developer") {
     html += `
       <h4>Developer 👨‍💻</h4>
       <ul>
         <li>HTML, CSS, JavaScript</li>
-        <li>Then: Java / Python</li>
-        <li>Build projects</li>
+        <li>Then Java / Python</li>
       </ul>`;
   }
 
