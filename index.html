@@ -15,19 +15,13 @@
   <div id="loginScreen">
     <h1>CareerPath AI</h1>
     <p>Enter your name to start</p>
-    <input type="text" id="username" placeholder="Your Name">
-    <button onclick="login()">Continue</button>
-  </div>
-
-  <!-- START -->
-  <div id="startScreen" class="hidden">
-    <h2>Career Guidance Test</h2>
-    <button onclick="startTest()">Start Test</button>
+    <input type="text" id="userName" placeholder="Your Name">
+    <button onclick="startApp()">Continue</button>
   </div>
 
   <!-- QUIZ -->
   <div id="quiz" class="hidden">
-    <h3 id="question"></h3>
+    <h2 id="question"></h2>
     <div id="options"></div>
   </div>
 
@@ -36,13 +30,11 @@
     <h2>Your Career Result</h2>
     <div id="finalResult"></div>
     <button onclick="downloadPDF()">Download PDF</button>
-    <button onclick="logout()">Logout</button>
+    <button onclick="location.reload()">Restart</button>
   </div>
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="script.js"></script>
-
 </body>
 </html>
