@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>CareerPath AI – Smart Career Guidance</title>
+  <title>CareerPath AI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="style.css">
@@ -15,8 +15,11 @@
   <div id="loginScreen">
     <h1>CareerPath AI</h1>
     <p>Enter your name to start</p>
+
     <input type="text" id="userName" placeholder="Your Name">
-    <button onclick="startApp()">Continue</button>
+
+    <!-- IMPORTANT: type="button" -->
+    <button type="button" id="startBtn">Continue</button>
   </div>
 
   <!-- QUIZ -->
@@ -29,8 +32,9 @@
   <div id="result" class="hidden">
     <h2>Your Career Result</h2>
     <div id="finalResult"></div>
-    <button onclick="downloadPDF()">Download PDF</button>
-    <button onclick="location.reload()">Restart</button>
+
+    <button type="button" id="pdfBtn">Download Result</button>
+    <button type="button" onclick="location.reload()">Restart</button>
   </div>
 
 </div>
