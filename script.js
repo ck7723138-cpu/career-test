@@ -1,80 +1,93 @@
-let step = 1;
-let interest = "";
+let currentQuestion = 0;
+let score = {
+  tech: 0,
+  medical: 0,
+  business: 0,
+  arts: 0
+};
+
+const questions = [
+  {
+    q: "Which subject do you like most?",
+    options: [
+      { text: "Computer / Coding", type: "tech" },
+      { text: "Biology", type: "medical" },
+      { text: "Accounts / Money", type: "business" },
+      { text: "Drawing / Creativity", type: "arts" }
+    ]
+  },
+  {
+    q: "What kind of work do you prefer?",
+    options: [
+      { text: "Problem Solving", type: "tech" },
+      { text: "Helping patients", type: "medical" },
+      { text: "Managing people", type: "business" },
+      { text: "Creative work", type: "arts" }
+    ]
+  },
+  {
+    q: "Your strength is?",
+    options: [
+      { text: "Logic & Thinking", type: "tech" },
+      { text: "Care & Patience", type: "medical" },
+      { text: "Leadership", type: "business" },
+      { text: "Imagination", type: "arts" }
+    ]
+  }
+];
 
 function startTest() {
-  document.getElementById("startBox").style.display = "none";
-  document.getElementById("questionBox").style.display = "block";
-  showQuestion1();
+  document.getElementById("startScreen").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  loadQuestion();
 }
 
-function showQuestion1() {
-  document.getElementById("question").innerText =
-    "What excites you more?";
+function loadQuestion() {
+  const q = questions[currentQuestion];
+  document.getElementById("question").innerText = q.q;
 
-  document.getElementById("btn1").innerText = "💻 Technology & Logic";
-  document.getElementById("btn2").innerText = "🎨 Creativity & Design";
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
 
-  document.getElementById("btn1").onclick = () => selectInterest("software");
-  document.getElementById("btn2").onclick = () => selectInterest("creative");
+  q.options.forEach(opt => {
+    const div = document.createElement("div");
+    div.className = "option";
+    div.innerText = opt.text;
+    div.onclick = () => selectOption(opt.type);
+    optionsDiv.appendChild(div);
+  });
 }
 
-function selectInterest(choice) {
-  interest = choice;
-  showQuestion2();
-}
+function selectOption(type) {
+  score[type]++;
+  currentQuestion++;
 
-function showQuestion2() {
-  if (interest === "software") {
-    document.getElementById("question").innerText =
-      "Do you enjoy solving problems and debugging?";
-
-    document.getElementById("btn1").innerText = "Yes, I enjoy it";
-    document.getElementById("btn2").innerText = "Sometimes";
-
+  if (currentQuestion < questions.length) {
+    loadQuestion();
   } else {
-    document.getElementById("question").innerText =
-      "Do you like creating visuals or new ideas?";
-
-    document.getElementById("btn1").innerText = "Yes, a lot";
-    document.getElementById("btn2").innerText = "A little";
+    showResult();
   }
-
-  document.getElementById("btn1").onclick = showResult;
-  document.getElementById("btn2").onclick = showResult;
 }
 
 function showResult() {
-  let resultHTML = "";
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
 
-  if (interest === "software") {
-    resultHTML = `
-      <h2>💻 Software Career Path</h2>
-      <p><b>Focus in life:</b> Logic, consistency, patience</p>
-      <p><b>Skills to learn:</b><br>
-      HTML, CSS, JavaScript<br>
-      One language (Python / Java)<br>
-      Problem solving</p>
-      <p><b>Reality:</b><br>
-      First 6 months learning<br>
-      1 year projects<br>
-      2 years earning possible</p>
-      <button onclick="location.reload()">Restart</button>
-    `;
+  let bestCareer = Object.keys(score).reduce((a, b) =>
+    score[a] > score[b] ? a : b
+  );
+
+  let resultText = "";
+
+  if (bestCareer === "tech") {
+    resultText = "Best Career Path: Software Developer, AI Engineer, Data Analyst";
+  } else if (bestCareer === "medical") {
+    resultText = "Best Career Path: Doctor, Nurse, Medical Technician";
+  } else if (bestCareer === "business") {
+    resultText = "Best Career Path: Entrepreneur, Manager, Marketing Expert";
   } else {
-    resultHTML = `
-      <h2>🎨 Creative Career Path</h2>
-      <p><b>Focus in life:</b> Creativity, observation</p>
-      <p><b>Skills to learn:</b><br>
-      UI/UX Design<br>
-      Video editing<br>
-      Content creation</p>
-      <p><b>Reality:</b><br>
-      Skills first<br>
-      Portfolio important<br>
-      Income grows slowly</p>
-      <button onclick="location.reload()">Restart</button>
-    `;
+    resultText = "Best Career Path: Designer, Animator, Content Creator";
   }
 
-  document.getElementById("questionBox").innerHTML = resultHTML;
+  document.getElementById("finalResult").innerText = resultText;
 }
