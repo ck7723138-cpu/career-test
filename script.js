@@ -173,74 +173,135 @@ function downloadPDF() {
 function logout() {
   localStorage.clear();
   location.reload();
+let currentQuestion = 0;
+let userName = "";
+
+const scores = {
+  doctor: 0,
+  designer: 0,
+  developer: 0
+};
+
+const questions = [
+  {
+    q: "What do you like most?",
+    options: [
+      { text: "Helping patients", type: "doctor" },
+      { text: "Design & creativity", type: "designer" },
+      { text: "Coding & logic", type: "developer" }
+    ]
+  },
+  {
+    q: "Your favorite subject?",
+    options: [
+      { text: "Biology", type: "doctor" },
+      { text: "Arts", type: "designer" },
+      { text: "Maths", type: "developer" }
+    ]
+  },
+  {
+    q: "How do you think?",
+    options: [
+      { text: "Carefully", type: "doctor" },
+      { text: "Creatively", type: "designer" },
+      { text: "Logically", type: "developer" }
+    ]
+  }
+];
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("startBtn").addEventListener("click", startApp);
+});
+
+function startApp() {
+  const input = document.getElementById("userName");
+  userName = input.value.trim();
+
+  if (!userName) {
+    alert("Please enter your name");
+    return;
+  }
+
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+
+  loadQuestion();
 }
 
-// AUTO LOAD
-window.onload = () => {
-  const user = localStorage.getItem("careerUser");
-  const result = localStorage.getItem("careerResult");
-  if (user && result) {
-    document.getElementById("loginScreen").classList.add("hidden");
-    document.getElementById("result").classList.remove("hidden");
-    document.getElementById("finalResult").innerHTML = result;
+function loadQuestion() {
+  const q = questions[currentQuestion];
+  document.getElementById("question").innerText = q.q;
+
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+
+  q.options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.innerText = opt.text;
+    btn.onclick = () => selectOption(opt.type);
+    optionsDiv.appendChild(btn);
+  });
+}
+
+function selectOption(type) {
+  scores[type]++;
+  currentQuestion++;
+
+  if (currentQuestion < questions.length) {
+    loadQuestion();
+  } else {
+    showResult();
   }
-};        <li>Learn JavaScript (Logic)</li>
-        <li>Then Python / Java</li>
-        <li>Build small projects</li>
-      </ul>
-      <p><b>Best free learning platforms:</b></p>
+}
+
+function showResult() {
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+
+  let career = Object.keys(scores).reduce((a, b) =>
+    scores[a] > scores[b] ? a : b
+  );
+
+  let html = `<h3>Hello ${userName}</h3>`;
+
+  if (career === "doctor") {
+    html += `
+      <p><b>Career:</b> Doctor 🩺</p>
       <ul>
-        <li>freeCodeCamp</li>
-        <li>W3Schools</li>
-        <li>YouTube (CodeWithHarry, Apna College)</li>
-      </ul>
-    `;
+        <li>Subjects: Biology, Chemistry, Physics</li>
+        <li>Start: NEET preparation</li>
+        <li>Course: MBBS</li>
+      </ul>`;
   }
 
-  else if (bestCareer === "medical") {
-    resultHTML = `
-      <h3>Career: Doctor 🩺</h3>
-      <p><b>Subjects needed:</b> Biology, Chemistry, Physics</p>
-      <p><b>Roadmap:</b></p>
-      <ul>
-        <li>Class 10 → Choose PCB</li>
-        <li>Class 11–12 → Focus on NCERT</li>
-        <li>Prepare for NEET</li>
-        <li>MBBS → Internship → Specialization</li>
-      </ul>
-      <p><b>Start now:</b> Daily Biology revision</p>
-    `;
-  }
-
-  else if (bestCareer === "business") {
-    resultHTML = `
-      <h3>Career: Business / Management 📊</h3>
-      <p><b>Subjects needed:</b> Accounts, Economics</p>
-      <p><b>How to start:</b></p>
-      <ul>
-        <li>Learn basic finance</li>
-        <li>Improve communication skills</li>
-        <li>Understand marketing</li>
-        <li>MBA (optional)</li>
-      </ul>
-      <p><b>Practice:</b> Internships, real business ideas</p>
-    `;
-  }
-
-  else {
-    resultHTML = `
-      <h3>Career: Designer 🎨</h3>
-      <p><b>Skills needed:</b> Creativity, Visual sense</p>
-      <p><b>How to start:</b></p>
+  if (career === "designer") {
+    html += `
+      <p><b>Career:</b> Designer 🎨</p>
       <ul>
         <li>Start with Canva</li>
         <li>Learn Figma / Photoshop</li>
-        <li>Create designs daily</li>
-        <li>Build portfolio</li>
-      </ul>
-      <p><b>Learn from:</b> YouTube, Behance, Dribbble</p>
-    `;
+        <li>Build Portfolio</li>
+      </ul>`;
   }
 
-  document.getElementById("finalResult").innerHTML = resultHTML;
+  if (career === "developer") {
+    html += `
+      <p><b>Career:</b> Developer 👨‍💻</p>
+      <ul>
+        <li>HTML, CSS, JavaScript</li>
+        <li>Then Java / Python</li>
+        <li>Build Projects</li>
+      </ul>`;
+  }
+
+  document.getElementById("finalResult").innerHTML = html;
+}
+
+function downloadResult() {
+  const text = document.getElementById("finalResult").innerText;
+  const blob = new Blob([text], { type: "text/plain" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "Career_Result.txt";
+  link.click();
 }
