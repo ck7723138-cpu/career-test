@@ -244,16 +244,146 @@ function loadQuestion() {
 }
 
 function selectOption(type) {
+let userName = "";
+let currentQuestion = 0;
+let selectedPath = ""; // AI decides path
+
+const scores = {
+  doctor: 0,
+  designer: 0,
+  developer: 0
+};
+
+/* AI QUESTION BANK */
+const questionSets = {
+  start: [
+    {
+      q: "What do you like most?",
+      options: [
+        { text: "Helping sick people", type: "doctor" },
+        { text: "Design & creativity", type: "designer" },
+        { text: "Coding & technology", type: "developer" }
+      ]
+    }
+  ],
+
+  doctor: [
+    {
+      q: "Which subject do you enjoy most?",
+      options: [
+        { text: "Biology", type: "doctor" },
+        { text: "Chemistry", type: "doctor" },
+        { text: "Physics", type: "doctor" }
+      ]
+    },
+    {
+      q: "How do you feel about long study hours?",
+      options: [
+        { text: "I can manage", type: "doctor" },
+        { text: "Hard but possible", type: "doctor" },
+        { text: "Not for me", type: "designer" }
+      ]
+    }
+  ],
+
+  designer: [
+    {
+      q: "What excites you more?",
+      options: [
+        { text: "Colors & layouts", type: "designer" },
+        { text: "Logos & posters", type: "designer" },
+        { text: "Animations", type: "designer" }
+      ]
+    },
+    {
+      q: "Which tool sounds interesting?",
+      options: [
+        { text: "Canva", type: "designer" },
+        { text: "Figma / Photoshop", type: "designer" },
+        { text: "Video editing", type: "designer" }
+      ]
+    }
+  ],
+
+  developer: [
+    {
+      q: "What do you enjoy more?",
+      options: [
+        { text: "Solving problems", type: "developer" },
+        { text: "Building apps", type: "developer" },
+        { text: "Learning new tech", type: "developer" }
+      ]
+    },
+    {
+      q: "Which sounds better?",
+      options: [
+        { text: "Web development", type: "developer" },
+        { text: "App development", type: "developer" },
+        { text: "Game development", type: "developer" }
+      ]
+    }
+  ]
+};
+
+let activeQuestions = questionSets.start;
+
+/* START */
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("startBtn").addEventListener("click", startApp);
+});
+
+function startApp() {
+  userName = document.getElementById("userName").value.trim();
+  if (!userName) {
+    alert("Please enter your name");
+    return;
+  }
+
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+
+  loadQuestion();
+}
+
+/* LOAD QUESTION */
+function loadQuestion() {
+  const q = activeQuestions[currentQuestion];
+  document.getElementById("question").innerText = q.q;
+
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+
+  q.options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.innerText = opt.text;
+    btn.onclick = () => selectOption(opt.type);
+    optionsDiv.appendChild(btn);
+  });
+}
+
+/* AI DECISION */
+function selectOption(type) {
   scores[type]++;
+
+  // AI chooses path after first question
+  if (currentQuestion === 0 && selectedPath === "") {
+    selectedPath = type;
+    activeQuestions = questionSets[type];
+    currentQuestion = 0;
+    loadQuestion();
+    return;
+  }
+
   currentQuestion++;
 
-  if (currentQuestion < questions.length) {
+  if (currentQuestion < activeQuestions.length) {
     loadQuestion();
   } else {
     showResult();
   }
 }
 
+/* RESULT */
 function showResult() {
   document.getElementById("quiz").classList.add("hidden");
   document.getElementById("result").classList.remove("hidden");
@@ -262,46 +392,37 @@ function showResult() {
     scores[a] > scores[b] ? a : b
   );
 
-  let html = `<h3>Hello ${userName}</h3>`;
+  let html = `<h3>Hello ${userName} 👋</h3>`;
 
   if (career === "doctor") {
     html += `
-      <p><b>Career:</b> Doctor 🩺</p>
+      <h4>Doctor 🩺</h4>
       <ul>
         <li>Subjects: Biology, Chemistry, Physics</li>
-        <li>Start: NEET preparation</li>
+        <li>Start with: NEET preparation</li>
         <li>Course: MBBS</li>
       </ul>`;
   }
 
   if (career === "designer") {
     html += `
-      <p><b>Career:</b> Designer 🎨</p>
+      <h4>Designer 🎨</h4>
       <ul>
-        <li>Start with Canva</li>
-        <li>Learn Figma / Photoshop</li>
-        <li>Build Portfolio</li>
+        <li>Start with: Canva</li>
+        <li>Learn: Figma / Photoshop</li>
+        <li>Build portfolio</li>
       </ul>`;
   }
 
   if (career === "developer") {
     html += `
-      <p><b>Career:</b> Developer 👨‍💻</p>
+      <h4>Developer 👨‍💻</h4>
       <ul>
         <li>HTML, CSS, JavaScript</li>
-        <li>Then Java / Python</li>
-        <li>Build Projects</li>
+        <li>Then: Java / Python</li>
+        <li>Build projects</li>
       </ul>`;
   }
 
   document.getElementById("finalResult").innerHTML = html;
-}
-
-function downloadResult() {
-  const text = document.getElementById("finalResult").innerText;
-  const blob = new Blob([text], { type: "text/plain" });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = "Career_Result.txt";
-  link.click();
 }
