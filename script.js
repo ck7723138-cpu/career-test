@@ -1,4 +1,5 @@
 let currentQuestion = 0;
+
 let score = {
   tech: 0,
   medical: 0,
@@ -8,7 +9,7 @@ let score = {
 
 const questions = [
   {
-    q: "Which subject do you like most?",
+    q: "Which subject do you like the most?",
     options: [
       { text: "Computer / Coding", type: "tech" },
       { text: "Biology", type: "medical" },
@@ -17,21 +18,30 @@ const questions = [
     ]
   },
   {
-    q: "What kind of work do you prefer?",
+    q: "What kind of work do you enjoy?",
     options: [
-      { text: "Problem Solving", type: "tech" },
-      { text: "Helping patients", type: "medical" },
+      { text: "Solving problems", type: "tech" },
+      { text: "Helping sick people", type: "medical" },
       { text: "Managing people", type: "business" },
-      { text: "Creative work", type: "arts" }
+      { text: "Creative designing", type: "arts" }
     ]
   },
   {
-    q: "Your strength is?",
+    q: "Which skill matches you the most?",
     options: [
       { text: "Logic & Thinking", type: "tech" },
       { text: "Care & Patience", type: "medical" },
       { text: "Leadership", type: "business" },
       { text: "Imagination", type: "arts" }
+    ]
+  },
+  {
+    q: "What is your future goal?",
+    options: [
+      { text: "Build apps / websites", type: "tech" },
+      { text: "Become a doctor", type: "medical" },
+      { text: "Run a business", type: "business" },
+      { text: "Become a designer", type: "arts" }
     ]
   }
 ];
@@ -49,11 +59,11 @@ function loadQuestion() {
   const optionsDiv = document.getElementById("options");
   optionsDiv.innerHTML = "";
 
-  q.options.forEach(opt => {
+  q.options.forEach(option => {
     const div = document.createElement("div");
     div.className = "option";
-    div.innerText = opt.text;
-    div.onclick = () => selectOption(opt.type);
+    div.innerText = option.text;
+    div.onclick = () => selectOption(option.type);
     optionsDiv.appendChild(div);
   });
 }
@@ -77,17 +87,72 @@ function showResult() {
     score[a] > score[b] ? a : b
   );
 
-  let resultText = "";
+  let resultHTML = "";
 
   if (bestCareer === "tech") {
-    resultText = "Best Career Path: Software Developer, AI Engineer, Data Analyst";
-  } else if (bestCareer === "medical") {
-    resultText = "Best Career Path: Doctor, Nurse, Medical Technician";
-  } else if (bestCareer === "business") {
-    resultText = "Best Career Path: Entrepreneur, Manager, Marketing Expert";
-  } else {
-    resultText = "Best Career Path: Designer, Animator, Content Creator";
+    resultHTML = `
+      <h3>Career: Software Developer 👨‍💻</h3>
+      <p><b>Subjects needed:</b> Maths, Computer Science</p>
+      <p><b>How to start:</b></p>
+      <ul>
+        <li>Learn HTML, CSS (Web basics)</li>
+        <li>Learn JavaScript (Logic)</li>
+        <li>Then Python / Java</li>
+        <li>Build small projects</li>
+      </ul>
+      <p><b>Best free learning platforms:</b></p>
+      <ul>
+        <li>freeCodeCamp</li>
+        <li>W3Schools</li>
+        <li>YouTube (CodeWithHarry, Apna College)</li>
+      </ul>
+    `;
   }
 
-  document.getElementById("finalResult").innerText = resultText;
+  else if (bestCareer === "medical") {
+    resultHTML = `
+      <h3>Career: Doctor 🩺</h3>
+      <p><b>Subjects needed:</b> Biology, Chemistry, Physics</p>
+      <p><b>Roadmap:</b></p>
+      <ul>
+        <li>Class 10 → Choose PCB</li>
+        <li>Class 11–12 → Focus on NCERT</li>
+        <li>Prepare for NEET</li>
+        <li>MBBS → Internship → Specialization</li>
+      </ul>
+      <p><b>Start now:</b> Daily Biology revision</p>
+    `;
+  }
+
+  else if (bestCareer === "business") {
+    resultHTML = `
+      <h3>Career: Business / Management 📊</h3>
+      <p><b>Subjects needed:</b> Accounts, Economics</p>
+      <p><b>How to start:</b></p>
+      <ul>
+        <li>Learn basic finance</li>
+        <li>Improve communication skills</li>
+        <li>Understand marketing</li>
+        <li>MBA (optional)</li>
+      </ul>
+      <p><b>Practice:</b> Internships, real business ideas</p>
+    `;
+  }
+
+  else {
+    resultHTML = `
+      <h3>Career: Designer 🎨</h3>
+      <p><b>Skills needed:</b> Creativity, Visual sense</p>
+      <p><b>How to start:</b></p>
+      <ul>
+        <li>Start with Canva</li>
+        <li>Learn Figma / Photoshop</li>
+        <li>Create designs daily</li>
+        <li>Build portfolio</li>
+      </ul>
+      <p><b>Learn from:</b> YouTube, Behance, Dribbble</p>
+    `;
+  }
+
+  document.getElementById("finalResult").innerHTML = resultHTML;
 }
