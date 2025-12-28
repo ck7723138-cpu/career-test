@@ -1,45 +1,36 @@
+/* RESET */
 * {
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* BODY */
+/* PAGE */
 body {
   margin: 0;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #1e88e5, #42a5f5);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* important for mobile scroll */
+  padding: 0;
+  background: #1976d2;
 }
 
-/* MAIN CONTAINER */
+/* MAIN CARD */
 .container {
-  width: 92%;
+  width: 90%;
   max-width: 420px;
   background: #ffffff;
-  margin: 40px 0;
+  margin: 40px auto;
   padding: 20px;
   border-radius: 14px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
 }
 
 /* HEADINGS */
-h1 {
+h1, h2, h3 {
   text-align: center;
-  color: #1e88e5;
-  margin-bottom: 10px;
+  color: #1976d2;
 }
 
-h2, h3 {
-  text-align: center;
-  color: #1e88e5;
-}
-
-/* PARAGRAPH */
+/* TEXT */
 p {
   text-align: center;
-  color: #555;
+  color: #444;
 }
 
 /* INPUT */
@@ -47,86 +38,46 @@ input {
   width: 100%;
   padding: 12px;
   margin-top: 12px;
+  font-size: 16px;
   border-radius: 8px;
   border: 1px solid #ccc;
-  font-size: 15px;
 }
 
 /* BUTTON */
 button {
   width: 100%;
   padding: 12px;
-  margin-top: 16px;
-  background: #1e88e5;
-  color: white;
-  border: none;
-  border-radius: 10px;
+  margin-top: 14px;
   font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  background: #1976d2;
+  color: white;
   cursor: pointer;
 }
 
 button:hover {
-  background: #1565c0;
+  background: #0d47a1;
 }
 
-/* QUIZ OPTIONS */
-.option {
-  padding: 12px;
-  margin-top: 10px;
-  background: #f1f1f1;
-  border-radius: 8px;
-  cursor: pointer;
-  text-align: center;
-  font-weight: 500;
+/* OPTIONS (Quiz buttons) */
+#options button {
+  background: #eeeeee;
+  color: #333;
+  border: 1px solid #ccc;
 }
 
-.option:hover {
+#options button:hover {
   background: #e0e0e0;
 }
 
-/* RESULT AREA */
+/* RESULT */
 #finalResult {
   margin-top: 15px;
-  font-size: 15px;
   color: #333;
 }
 
-#finalResult ul {
-  padding-left: 18px;
-}
-
-#finalResult li {
-  margin-bottom: 6px;
-}
-
-/* SCREENS */
-#loginScreen,
-#startScreen,
-#quiz,
-#result {
-  animation: fadeIn 0.4s ease-in-out;
-}
-
-/* HIDDEN CLASS */
+/* HIDE */
 .hidden {
   display: none;
-}
-
-/* ANIMATION */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* MOBILE FIX */
-@media (max-height: 600px) {
-  .container {
-    margin: 20px 0;
-  }
 }
