@@ -9,49 +9,54 @@ let score = {
 
 const questions = [
   {
-    q: "Which subject do you like the most?",
+    q: "Which subject do you enjoy most?",
     options: [
-      { text: "Computer / Coding", type: "tech" },
-      { text: "Biology", type: "medical" },
-      { text: "Accounts / Money", type: "business" },
-      { text: "Drawing / Creativity", type: "arts" }
+      { text: "Computer / Coding", type: "tech", weight: 2 },
+      { text: "Biology", type: "medical", weight: 2 },
+      { text: "Accounts", type: "business", weight: 2 },
+      { text: "Drawing", type: "arts", weight: 2 }
     ]
   },
   {
-    q: "What kind of work do you enjoy?",
+    q: "What type of work do you like?",
     options: [
-      { text: "Solving problems", type: "tech" },
-      { text: "Helping sick people", type: "medical" },
-      { text: "Managing people", type: "business" },
-      { text: "Creative designing", type: "arts" }
+      { text: "Problem solving", type: "tech", weight: 2 },
+      { text: "Helping people", type: "medical", weight: 2 },
+      { text: "Leading teams", type: "business", weight: 2 },
+      { text: "Creative work", type: "arts", weight: 2 }
     ]
   },
   {
-    q: "Which skill matches you the most?",
+    q: "Your strongest skill?",
     options: [
-      { text: "Logic & Thinking", type: "tech" },
-      { text: "Care & Patience", type: "medical" },
-      { text: "Leadership", type: "business" },
-      { text: "Imagination", type: "arts" }
-    ]
-  },
-  {
-    q: "What is your future goal?",
-    options: [
-      { text: "Build apps / websites", type: "tech" },
-      { text: "Become a doctor", type: "medical" },
-      { text: "Run a business", type: "business" },
-      { text: "Become a designer", type: "arts" }
+      { text: "Logic", type: "tech", weight: 2 },
+      { text: "Care & patience", type: "medical", weight: 2 },
+      { text: "Communication", type: "business", weight: 2 },
+      { text: "Creativity", type: "arts", weight: 2 }
     ]
   }
 ];
 
+// LOGIN
+function login() {
+  const name = document.getElementById("username").value;
+  if (!name) {
+    alert("Enter your name");
+    return;
+  }
+  localStorage.setItem("careerUser", name);
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("startScreen").classList.remove("hidden");
+}
+
+// START TEST
 function startTest() {
   document.getElementById("startScreen").classList.add("hidden");
   document.getElementById("quiz").classList.remove("hidden");
   loadQuestion();
 }
 
+// LOAD QUESTION
 function loadQuestion() {
   const q = questions[currentQuestion];
   document.getElementById("question").innerText = q.q;
@@ -59,17 +64,18 @@ function loadQuestion() {
   const optionsDiv = document.getElementById("options");
   optionsDiv.innerHTML = "";
 
-  q.options.forEach(option => {
-    const div = document.createElement("div");
-    div.className = "option";
-    div.innerText = option.text;
-    div.onclick = () => selectOption(option.type);
-    optionsDiv.appendChild(div);
+  q.options.forEach(opt => {
+    const btn = document.createElement("div");
+    btn.className = "option";
+    btn.innerText = opt.text;
+    btn.onclick = () => selectOption(opt.type, opt.weight);
+    optionsDiv.appendChild(btn);
   });
 }
 
-function selectOption(type) {
-  score[type]++;
+// SELECT OPTION
+function selectOption(type, weight) {
+  score[type] += weight;
   currentQuestion++;
 
   if (currentQuestion < questions.length) {
@@ -79,6 +85,7 @@ function selectOption(type) {
   }
 }
 
+// RESULT
 function showResult() {
   document.getElementById("quiz").classList.add("hidden");
   document.getElementById("result").classList.remove("hidden");
@@ -87,16 +94,72 @@ function showResult() {
     score[a] > score[b] ? a : b
   );
 
-  let resultHTML = "";
+  let html = "";
 
   if (bestCareer === "tech") {
-    resultHTML = `
-      <h3>Career: Software Developer 👨‍💻</h3>
-      <p><b>Subjects needed:</b> Maths, Computer Science</p>
-      <p><b>How to start:</b></p>
-      <ul>
-        <li>Learn HTML, CSS (Web basics)</li>
-        <li>Learn JavaScript (Logic)</li>
+    html = `
+    <h3>Software Developer 👨‍💻</h3>
+    <p><b>Subjects:</b> Maths, Computer</p>
+    <ul>
+      <li>HTML, CSS, JavaScript</li>
+      <li>Python / Java</li>
+      <li>Build projects</li>
+    </ul>`;
+  } else if (bestCareer === "medical") {
+    html = `
+    <h3>Doctor 🩺</h3>
+    <p><b>Subjects:</b> Biology, Chemistry, Physics</p>
+    <ul>
+      <li>PCB in 11–12</li>
+      <li>NEET exam</li>
+      <li>MBBS</li>
+    </ul>`;
+  } else if (bestCareer === "business") {
+    html = `
+    <h3>Business / Management 📊</h3>
+    <p><b>Subjects:</b> Accounts, Economics</p>
+    <ul>
+      <li>Finance basics</li>
+      <li>Marketing</li>
+      <li>MBA (optional)</li>
+    </ul>`;
+  } else {
+    html = `
+    <h3>Designer 🎨</h3>
+    <p><b>Skills:</b> Creativity</p>
+    <ul>
+      <li>Canva</li>
+      <li>Figma / Photoshop</li>
+      <li>Portfolio</li>
+    </ul>`;
+  }
+
+  document.getElementById("finalResult").innerHTML = html;
+  localStorage.setItem("careerResult", html);
+}
+
+// PDF
+function downloadPDF() {
+  const element = document.getElementById("result");
+  html2pdf().from(element).save("CareerPathAI_Result.pdf");
+}
+
+// LOGOUT
+function logout() {
+  localStorage.clear();
+  location.reload();
+}
+
+// AUTO LOAD
+window.onload = () => {
+  const user = localStorage.getItem("careerUser");
+  const result = localStorage.getItem("careerResult");
+  if (user && result) {
+    document.getElementById("loginScreen").classList.add("hidden");
+    document.getElementById("result").classList.remove("hidden");
+    document.getElementById("finalResult").innerHTML = result;
+  }
+};        <li>Learn JavaScript (Logic)</li>
         <li>Then Python / Java</li>
         <li>Build small projects</li>
       </ul>
