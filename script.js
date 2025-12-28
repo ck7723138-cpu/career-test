@@ -1,6 +1,7 @@
-let userName = "";
 let currentQuestion = 0;
-let scores = {
+let userName = "";
+
+const scores = {
   doctor: 0,
   designer: 0,
   developer: 0
@@ -8,61 +9,71 @@ let scores = {
 
 const questions = [
   {
-    q: "What do you enjoy more?",
+    q: "What do you like most?",
     options: [
-      { text: "Helping sick people", type: "doctor" },
-      { text: "Creating visuals & art", type: "designer" },
-      { text: "Building apps/websites", type: "developer" }
+      { text: "Helping patients", type: "doctor" },
+      { text: "Design & creativity", type: "designer" },
+      { text: "Coding & logic", type: "developer" }
     ]
   },
   {
-    q: "Which subject do you like?",
+    q: "Your favorite subject?",
     options: [
       { text: "Biology", type: "doctor" },
-      { text: "Drawing / Creativity", type: "designer" },
-      { text: "Maths / Logic", type: "developer" }
+      { text: "Arts", type: "designer" },
+      { text: "Maths", type: "developer" }
     ]
   },
   {
-    q: "How do you solve problems?",
+    q: "How do you think?",
     options: [
-      { text: "Carefully & patiently", type: "doctor" },
+      { text: "Carefully", type: "doctor" },
       { text: "Creatively", type: "designer" },
-      { text: "Step by step logically", type: "developer" }
+      { text: "Logically", type: "developer" }
     ]
   }
 ];
 
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("startBtn").addEventListener("click", startApp);
+  document.getElementById("pdfBtn").addEventListener("click", downloadResult);
+});
+
 function startApp() {
-  userName = document.getElementById("userName").value.trim();
-  if (userName === "") {
+  const input = document.getElementById("userName");
+  userName = input.value.trim();
+
+  if (!userName) {
     alert("Please enter your name");
     return;
   }
-  localStorage.setItem("careerUser", userName);
+
   document.getElementById("loginScreen").classList.add("hidden");
   document.getElementById("quiz").classList.remove("hidden");
+
   loadQuestion();
 }
 
 function loadQuestion() {
   const q = questions[currentQuestion];
   document.getElementById("question").innerText = q.q;
+
   const optionsDiv = document.getElementById("options");
   optionsDiv.innerHTML = "";
 
   q.options.forEach(opt => {
-    const btn = document.createElement("div");
-    btn.className = "option";
-    btn.innerText = opt.text;
-    btn.onclick = () => selectOption(opt.type);
-    optionsDiv.appendChild(btn);
+    const div = document.createElement("div");
+    div.className = "option";
+    div.innerText = opt.text;
+    div.addEventListener("click", () => selectOption(opt.type));
+    optionsDiv.appendChild(div);
   });
 }
 
 function selectOption(type) {
   scores[type]++;
   currentQuestion++;
+
   if (currentQuestion < questions.length) {
     loadQuestion();
   } else {
@@ -74,47 +85,33 @@ function showResult() {
   document.getElementById("quiz").classList.add("hidden");
   document.getElementById("result").classList.remove("hidden");
 
-  let career = Object.keys(scores).reduce((a, b) =>
+  const career = Object.keys(scores).reduce((a, b) =>
     scores[a] > scores[b] ? a : b
   );
 
-  let resultHTML = `<h3>Hello ${userName} 👋</h3>`;
+  let html = `<h3>Hello ${userName}</h3>`;
 
   if (career === "doctor") {
-    resultHTML += `
-      <p><b>Recommended Career: Doctor</b></p>
-      <ul>
-        <li>Subjects: Biology, Chemistry, Physics</li>
-        <li>Start with: NEET preparation</li>
-        <li>Courses: MBBS, BDS</li>
-        <li>Skills: Patience, Care, Discipline</li>
-      </ul>
-    `;
+    html += `<p><b>Doctor</b><br>Subjects: PCB<br>Start: NEET</p>`;
   }
-
   if (career === "designer") {
-    resultHTML += `
-      <p><b>Recommended Career: Designer</b></p>
-      <ul>
-        <li>Start with: Canva, Figma</li>
-        <li>Learn: UI/UX, Graphic Design</li>
-        <li>Platforms: YouTube, Coursera</li>
-        <li>Skills: Creativity, Color sense</li>
-      </ul>
-    `;
+    html += `<p><b>Designer</b><br>Start: Canva, Figma</p>`;
+  }
+  if (career === "developer") {
+    html += `<p><b>Developer</b><br>Start: HTML, CSS, JS</p>`;
   }
 
-  if (career === "developer") {
-    resultHTML += `
-      <p><b>Recommended Career: Developer</b></p>
-      <ul>
-        <li>Start with: HTML, CSS, JavaScript</li>
-        <li>Then: React, Python, Java</li>
-        <li>Practice: GitHub, Projects</li>
-        <li>Skills: Logic, Problem-solving</li>
-      </ul>
-    `;
-  }
+  document.getElementById("finalResult").innerHTML = html;
+}
+
+function downloadResult() {
+  const text = document.getElementById("finalResult").innerText;
+  const blob = new Blob([text], { type: "text/plain" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "Career_Result.txt";
+  link.click();
+}  }
 
   document.getElementById("finalResult").innerHTML = resultHTML;
 }
