@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Result</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{
+      font-family: Arial;
+      text-align:center;
+      padding-top:80px;
+      background:#eef;
+    }
+  </style>
+</head>
+<body>
+
+<h1 id="result"></h1>
+
+<script>
+let name = localStorage.getItem("username");
+document.getElementById("result").innerText =
+  name + ", you are suitable for Technology 🚀";
+</script>
+
+</body>
+</html>
