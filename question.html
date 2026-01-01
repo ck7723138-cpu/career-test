@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Career Questions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{
+      font-family: Arial;
+      text-align:center;
+      padding-top:60px;
+    }
+    button{
+      display:block;
+      margin:10px auto;
+      padding:12px;
+      width:240px;
+    }
+  </style>
+</head>
+<body>
+
+<h2 id="question"></h2>
+
+<button id="op1" onclick="nextQ(0)"></button>
+<button id="op2" onclick="nextQ(1)"></button>
+<button id="op3" onclick="nextQ(2)"></button>
+
+<script>
+let current = 0;
+
+const questions = [
+  {
+    q: "Which field do you like?",
+    options: ["Technology", "Business", "Creative"]
+  },
+  {
+    q: "How do you like working?",
+    options: ["With Computer", "With People", "Alone"]
+  },
+  {
+    q: "What is your goal?",
+    options: ["High Salary", "Helping Others", "Freedom"]
+  }
+];
+
+function loadQuestion(){
+  document.getElementById("question").innerText = questions[current].q;
+  document.getElementById("op1").innerText = questions[current].options[0];
+  document.getElementById("op2").innerText = questions[current].options[1];
+  document.getElementById("op3").innerText = questions[current].options[2];
+}
+
+function nextQ(){
+  current++;
+  if(current < questions.length){
+    loadQuestion();
+  }else{
+    window.location.href = "result.html";
+  }
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
