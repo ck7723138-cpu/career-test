@@ -5,27 +5,31 @@
   <title>CareerPath AI - Register</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- CSS file link -->
   <link rel="stylesheet" href="style.css">
 
   <style>
-    /* Agar style.css load na ho, tab bhi basic design rahe */
     body{
       font-family: Arial, sans-serif;
       background:#f4f6ff;
       text-align:center;
-      padding-top:80px;
+      padding-top:60px;
+    }
+    h1{
+      color:#333;
     }
     input{
+      width:260px;
       padding:12px;
+      margin:8px 0;
       font-size:16px;
-      width:240px;
-      margin:10px;
+      border-radius:6px;
+      border:1px solid #ccc;
     }
     button{
+      width:260px;
       padding:12px;
+      margin-top:15px;
       font-size:16px;
-      width:240px;
       background:#4a5cff;
       color:white;
       border:none;
@@ -38,25 +42,33 @@
 <body>
 
   <h1>CareerPath AI</h1>
-  <p>Find your best career path</p>
+  <p>Register to start your career test</p>
 
-  <input type="text" id="name" placeholder="Enter your name">
-  <br>
+  <input type="text" id="name" placeholder="Full Name"><br>
+  <input type="tel" id="phone" placeholder="Phone Number"><br>
+  <input type="email" id="email" placeholder="Email Address"><br>
+  <input type="password" id="password" placeholder="Password"><br>
+
   <button onclick="startTest()">Start Test</button>
 
   <script>
     function startTest(){
       let name = document.getElementById("name").value;
+      let phone = document.getElementById("phone").value;
+      let email = document.getElementById("email").value;
+      let password = document.getElementById("password").value;
 
-      if(name === ""){
-        alert("Please enter your name");
+      if(name === "" || phone === "" || email === "" || password === ""){
+        alert("Please fill all details");
         return;
       }
 
-      // name save kar rahe hain
-      localStorage.setItem("username", name);
+      // Demo purpose only (practice)
+      localStorage.setItem("name", name);
+      localStorage.setItem("phone", phone);
+      localStorage.setItem("email", email);
 
-      // next page
+      // Next page
       window.location.href = "question.html";
     }
   </script>
