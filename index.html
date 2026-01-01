@@ -1,103 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>CareerPath AI</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-  body{
-    margin:0;
-    padding:0;
-    background:#1976d2;
-    font-family: Arial, sans-serif;
-  }
-  .box{
-    background:#fff;
-    width:90%;
-    max-width:400px;
-    margin:40px auto;
-    padding:20px;
-    border-radius:12px;
-  }
-  h1,h2{
-    text-align:center;
-    color:#1976d2;
-  }
-  p{
-    text-align:center;
-  }
-  input,button{
-    width:100%;
-    padding:12px;
-    margin-top:12px;
-    font-size:16px;
-  }
-  button{
-    background:#1976d2;
-    color:#fff;
-    border:none;
-    border-radius:8px;
-  }
-  .option{
-    background:#eee;
-    padding:12px;
-    margin-top:10px;
-    border-radius:8px;
-    text-align:center;
-  }
-</style>
+  <title>Career Test</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      padding-top: 80px;
+    }
+    button {
+      display: block;
+      margin: 10px auto;
+      padding: 12px 20px;
+      width: 220px;
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="box">
+<h2 id="question">Loading...</h2>
 
-  <!-- LOGIN -->
-  <div id="login">
-    <h1>CareerPath AI</h1>
-    <p>Enter your name</p>
-    <input id="name" placeholder="Your Name">
-    <button onclick="start()">Continue</button>
-  </div>
-
-  <!-- QUESTION -->
-  <div id="quiz" style="display:none;">
-    <h2 id="question"></h2>
-    <div class="option" onclick="answer('doctor')">Doctor</div>
-    <div class="option" onclick="answer('designer')">Designer</div>
-    <div class="option" onclick="answer('developer')">Developer</div>
-  </div>
-
-  <!-- RESULT -->
-  <div id="result" style="display:none;">
-    <h2>Result</h2>
-    <p id="final"></p>
-    <button onclick="location.reload()">Restart</button>
-  </div>
-
-</div>
+<button id="op1" onclick="nextQ(0)"></button>
+<button id="op2" onclick="nextQ(1)"></button>
+<button id="op3" onclick="nextQ(2)"></button>
 
 <script>
-  let score={doctor:0,designer:0,developer:0};
-  let q=0;
-  const questions=[
-    "What do you like most?",
-    "Which subject you enjoy?",
-    "How do you think?"
-  ];
+let current = 0;
 
-  function start(){
-    const n=document.getElementById("name").value.trim();
-    if(n===""){ alert("Enter name"); return; }
-    document.getElementById("login").style.display="none";
-    document.getElementById("quiz").style.display="block";
-    document.getElementById("question").innerText=questions[q];
+const questions = [
+  {
+    q: "Which field do you like?",
+    options: ["Technology", "Business", "Creative"]
+  },
+  {
+    q: "How do you like working?",
+    options: ["With Computer", "With People", "Alone"]
+  },
+  {
+    q: "What is your goal?",
+    options: ["High Salary", "Helping Others", "Freedom"]
   }
+];
 
-  function answer(type){
-    score[type]++;
-    q++;
+function loadQuestion() {
+  document.getElementById("question").innerText = questions[current].q;
+
+  document.getElementById("op1").innerText = questions[current].options[0];
+  document.getElementById("op2").innerText = questions[current].options[1];
+  document.getElementById("op3").innerText = questions[current].options[2];
+}
+
+function nextQ(choice) {
+  current++;
+  if (current < questions.length) {
+    loadQuestion();
+  } else {
+    window.location.href = "result.html";
+  }
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>    q++;
     if(q<questions.length){
       document.getElementById("question").innerText=questions[q];
     }else{
