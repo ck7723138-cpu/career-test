@@ -1,101 +1,37 @@
-let currentQuestion = 0;
-let userName = "";
-
-const scores = {
-  doctor: 0,
-  designer: 0,
-  developer: 0
-};
+let current = 0;
 
 const questions = [
   {
-    q: "What do you like most?",
-    options: [
-      { text: "Helping patients", type: "doctor" },
-      { text: "Design & creativity", type: "designer" },
-      { text: "Coding & logic", type: "developer" }
-    ]
+    q: "Which field do you like?",
+    options: ["Technology", "Business", "Creative"]
   },
   {
-    q: "Your favorite subject?",
-    options: [
-      { text: "Biology", type: "doctor" },
-      { text: "Arts", type: "designer" },
-      { text: "Maths", type: "developer" }
-    ]
+    q: "How do you like working?",
+    options: ["With Computer", "With People", "Alone"]
   },
   {
-    q: "How do you think?",
-    options: [
-      { text: "Carefully", type: "doctor" },
-      { text: "Creatively", type: "designer" },
-      { text: "Logically", type: "developer" }
-    ]
+    q: "What is your goal?",
+    options: ["High Salary", "Helping Others", "Freedom"]
   }
 ];
 
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("startBtn").addEventListener("click", startApp);
-  document.getElementById("pdfBtn").addEventListener("click", downloadResult);
-});
-
-function startApp() {
-  const input = document.getElementById("userName");
-  userName = input.value.trim();
-
-  if (!userName) {
-    alert("Please enter your name");
-    return;
-  }
-
-  document.getElementById("loginScreen").classList.add("hidden");
-  document.getElementById("quiz").classList.remove("hidden");
-
-  loadQuestion();
+function loadQuestion(){
+  document.getElementById("question").innerText = questions[current].q;
+  document.getElementById("op1").innerText = questions[current].options[0];
+  document.getElementById("op2").innerText = questions[current].options[1];
+  document.getElementById("op3").innerText = questions[current].options[2];
 }
 
-function loadQuestion() {
-  const q = questions[currentQuestion];
-  document.getElementById("question").innerText = q.q;
-
-  const optionsDiv = document.getElementById("options");
-  optionsDiv.innerHTML = "";
-
-  q.options.forEach(opt => {
-    const div = document.createElement("div");
-    div.className = "option";
-    div.innerText = opt.text;
-    div.addEventListener("click", () => selectOption(opt.type));
-    optionsDiv.appendChild(div);
-  });
-}
-
-function selectOption(type) {
-  scores[type]++;
-  currentQuestion++;
-
-  if (currentQuestion < questions.length) {
+function nextQ(){
+  current++;
+  if(current < questions.length){
     loadQuestion();
-  } else {
-    showResult();
+  }else{
+    window.location.href = "result.html";
   }
 }
 
-function showResult() {
-  document.getElementById("quiz").classList.add("hidden");
-  document.getElementById("result").classList.remove("hidden");
-
-  const career = Object.keys(scores).reduce((a, b) =>
-    scores[a] > scores[b] ? a : b
-  );
-
-  let html = `<h3>Hello ${userName}</h3>`;
-
-  if (career === "doctor") {
-    html += `<p><b>Doctor</b><br>Subjects: PCB<br>Start: NEET</p>`;
-  }
-  if (career === "designer") {
-    html += `<p><b>Designer</b><br>Start: Canva, Figma</p>`;
+loadQuestion();    html += `<p><b>Designer</b><br>Start: Canva, Figma</p>`;
   }
   if (career === "developer") {
     html += `<p><b>Developer</b><br>Start: HTML, CSS, JS</p>`;
