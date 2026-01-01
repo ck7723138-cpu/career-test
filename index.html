@@ -1,93 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Career Test</title>
+  <title>CareerPath AI - Register</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body {
+    body{
       font-family: Arial;
-      text-align: center;
-      padding-top: 80px;
+      text-align:center;
+      padding-top:80px;
+      background:#f4f6ff;
     }
-    button {
-      display: block;
-      margin: 10px auto;
-      padding: 12px 20px;
-      width: 220px;
+    input, button{
+      padding:12px;
+      font-size:16px;
+      width:220px;
+      margin:10px;
+    }
+    button{
+      background:#4a5cff;
+      color:white;
+      border:none;
+      border-radius:6px;
     }
   </style>
 </head>
 <body>
 
-<h2 id="question">Loading...</h2>
+<h2>Register to Start</h2>
 
-<button id="op1" onclick="nextQ(0)"></button>
-<button id="op2" onclick="nextQ(1)"></button>
-<button id="op3" onclick="nextQ(2)"></button>
+<input type="text" id="name" placeholder="Enter your name">
+<br>
+<button onclick="startTest()">Start Test</button>
 
 <script>
-let current = 0;
-
-const questions = [
-  {
-    q: "Which field do you like?",
-    options: ["Technology", "Business", "Creative"]
-  },
-  {
-    q: "How do you like working?",
-    options: ["With Computer", "With People", "Alone"]
-  },
-  {
-    q: "What is your goal?",
-    options: ["High Salary", "Helping Others", "Freedom"]
+function startTest(){
+  let name = document.getElementById("name").value;
+  if(name === ""){
+    alert("Please enter your name");
+    return;
   }
-];
-
-function loadQuestion() {
-  document.getElementById("question").innerText = questions[current].q;
-
-  document.getElementById("op1").innerText = questions[current].options[0];
-  document.getElementById("op2").innerText = questions[current].options[1];
-  document.getElementById("op3").innerText = questions[current].options[2];
+  localStorage.setItem("username", name);
+  window.location.href = "question.html";
 }
-
-function nextQ(choice) {
-  current++;
-  if (current < questions.length) {
-    loadQuestion();
-  } else {
-    window.location.href = "result.html";
-  }
-}
-
-loadQuestion();
-</script>
-
-</body>
-</html>    q++;
-    if(q<questions.length){
-      document.getElementById("question").innerText=questions[q];
-    }else{
-      showResult();
-    }
-  }
-
-  function showResult(){
-    document.getElementById("quiz").style.display="none";
-    document.getElementById("result").style.display="block";
-
-    let career=Object.keys(score).reduce((a,b)=>score[a]>score[b]?a:b);
-    let text="";
-    if(career==="doctor"){
-      text="Doctor — Subjects: Biology, Chemistry, Physics. Start: NEET";
-    }
-    if(career==="designer"){
-      text="Designer — Start with Canva, Figma, UI/UX";
-    }
-    if(career==="developer"){
-      text="Developer — Start with HTML, CSS, JavaScript";
-    }
-    document.getElementById("final").innerText=text;
-  }
 </script>
 
 </body>
