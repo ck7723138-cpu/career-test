@@ -1,48 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>CareerPath AI - Register</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- CSS file link -->
+  <link rel="stylesheet" href="style.css">
+
   <style>
+    /* Agar style.css load na ho, tab bhi basic design rahe */
     body{
-      font-family: Arial;
+      font-family: Arial, sans-serif;
+      background:#f4f6ff;
       text-align:center;
       padding-top:80px;
-      background:#f4f6ff;
     }
-    input, button{
+    input{
       padding:12px;
       font-size:16px;
-      width:220px;
+      width:240px;
       margin:10px;
     }
     button{
+      padding:12px;
+      font-size:16px;
+      width:240px;
       background:#4a5cff;
       color:white;
       border:none;
       border-radius:6px;
+      cursor:pointer;
     }
   </style>
 </head>
+
 <body>
 
-<h2>Register to Start</h2>
+  <h1>CareerPath AI</h1>
+  <p>Find your best career path</p>
 
-<input type="text" id="name" placeholder="Enter your name">
-<br>
-<button onclick="startTest()">Start Test</button>
+  <input type="text" id="name" placeholder="Enter your name">
+  <br>
+  <button onclick="startTest()">Start Test</button>
 
-<script>
-function startTest(){
-  let name = document.getElementById("name").value;
-  if(name === ""){
-    alert("Please enter your name");
-    return;
-  }
-  localStorage.setItem("username", name);
-  window.location.href = "question.html";
-}
-</script>
+  <script>
+    function startTest(){
+      let name = document.getElementById("name").value;
+
+      if(name === ""){
+        alert("Please enter your name");
+        return;
+      }
+
+      // name save kar rahe hain
+      localStorage.setItem("username", name);
+
+      // next page
+      window.location.href = "question.html";
+    }
+  </script>
 
 </body>
 </html>
