@@ -1,26 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Your Result</title>
+  <meta charset="UTF-8">
+  <title>Your Career Result</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="style.css">
+
   <style>
     body{
-      font-family: Arial;
+      font-family: Arial, sans-serif;
+      background:#eef2ff;
       text-align:center;
-      padding-top:80px;
-      background:#eef;
+      padding-top:60px;
+    }
+    .box{
+      background:white;
+      width:90%;
+      max-width:400px;
+      margin:auto;
+      padding:25px;
+      border-radius:10px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    }
+    h1{
+      color:#333;
+    }
+    p{
+      font-size:18px;
+      color:#555;
+    }
+    button{
+      width:100%;
+      padding:12px;
+      margin-top:15px;
+      font-size:16px;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+    }
+    .wa{
+      background:#25D366;
+      color:white;
+    }
+    .home{
+      background:#4a5cff;
+      color:white;
     }
   </style>
 </head>
+
 <body>
 
-<h1 id="result"></h1>
+  <div class="box">
+    <h1 id="name"></h1>
+    <p id="result"></p>
 
-<script>
-let name = localStorage.getItem("username");
-document.getElementById("result").innerText =
-  name + ", you are suitable for Technology 🚀";
-</script>
+    <button class="wa" onclick="shareWhatsApp()">
+      Share Result on WhatsApp
+    </button>
+
+    <button class="home" onclick="goHome()">
+      Restart Test
+    </button>
+  </div>
+
+  <script>
+    // User data
+    let name = localStorage.getItem("name");
+
+    // Demo result (abhi static, baad me AI logic aayega)
+    let careerResult = "You are best suited for Technology 🚀";
+
+    if(!name){
+      name = "User";
+    }
+
+    document.getElementById("name").innerText =
+      "Hello " + name + " 👋";
+
+    document.getElementById("result").innerText =
+      careerResult;
+
+    function shareWhatsApp(){
+      let message =
+        "Hi " + name + 
+        "! My CareerPath AI result: " + careerResult;
+
+      let url =
+        "https://wa.me/?text=" +
+        encodeURIComponent(message);
+
+      window.open(url, "_blank");
+    }
+
+    function goHome(){
+      window.location.href = "index.html";
+    }
+  </script>
 
 </body>
 </html>
